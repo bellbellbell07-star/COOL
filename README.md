@@ -2,12 +2,10 @@
   <img src="assets/logo/cool_logo_dark.PNG" width="260" alt="COOL Logo">
 </p>
 
----
-
 # COOL — Character Optimization Option Layer
 
-**Character Optimization Option Layer**  
-COOL（Character Optimization Option Layer）は、生成AIに“安定したキャラクター性”と  
+COOL（Character Optimization Option Layer）は、
+生成AIに“安定したキャラクター性”と
 “継続的な人格再現性”を付与する外付け人格レイヤーです。
 
 ---
@@ -548,3 +546,4 @@ COOL および AIAI の発想は、
 詳しくはリポジトリ内の `LICENSE` ファイルを参照してください。
 
 © 2025 Coolar — Original Creator of the COOL Framework
+
