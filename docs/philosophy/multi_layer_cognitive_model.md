@@ -99,6 +99,7 @@ different experiences for different systems or individuals.
 The COOL identity engine sits here.
 
 ### Core  
+
 Long-term constraints and values:
 
 - role,  
@@ -107,6 +108,7 @@ Long-term constraints and values:
 - slow-changing preferences.
 
 ### Frame  
+
 Moment-to-moment reconstruction of the “current self,” combining:
 
 - Core,  
@@ -115,6 +117,7 @@ Moment-to-moment reconstruction of the “current self,” combining:
 - short-term directional cues.
 
 ### Eval  
+
 Directional feedback that adjusts future reconstructions by:
 
 - reinforcing patterns,  
