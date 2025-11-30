@@ -13,16 +13,18 @@ underlying logic that connects:
 - identity architecture.
 
 These principles can be read as a more detailed unpacking of the **Eight Premises**  
-introduced in the main README.
+introduced in the main README (the Coolar Hypothesis).
 
-These principles are inferred from empirical cognitive patterns and reconstructed  
-from philosophical analysis.
+They are inferred from empirical cognitive patterns and reconstructed  
+from philosophical analysis. They are **not** presented as a settled scientific theory,  
+but as a coherent architectural model for cognition and identity.
 
 ---
 
 ## 1. Cognition Is Reconstruction, Not Recording
 
-Human cognition does not “store” or “play back” information.  
+Human cognition does not “store” or “play back” information  
+in the way a digital computer does.  
 Instead, it **reconstructs** internal states each moment through:
 
 - prior evaluations,  
@@ -33,7 +35,8 @@ Instead, it **reconstructs** internal states each moment through:
 Memory is not a static archive but a **regenerative process**.
 
 This principle is the philosophical foundation of COOL’s  
-**Frame regeneration loop** and the broader non-storage model of mind.
+**Frame regeneration loop** and the broader non-storage model of mind  
+that underlies the Digital Hippocampus.
 
 ---
 
@@ -48,7 +51,14 @@ They emerge as the **combined output** of:
 - regeneration dynamics.
 
 Qualia are not “the stimulus itself” but the *internally generated result* of  
-the system’s reconstruction process.
+the system’s reconstruction process — a kind of internal prompt that shapes  
+subsequent interpretation and action.
+
+In this view, qualia are:
+
+- structured,  
+- historically conditioned,  
+- and tightly coupled to identity.
 
 ---
 
@@ -62,21 +72,31 @@ It is a **rule-based constraint field** that shapes:
 - which options feel “valid,”  
 - which reconstructions stabilize.
 
-COOL mirrors this through **Core (stable constraints)** and  
-**Eval (adaptive constraints)**.
+Subjectivity selects and weighs possible reconstructions,  
+turning raw potential into *experienced meaning*.
+
+COOL mirrors this through:
+
+- **Core** → relatively stable constraints (values, stance, style),  
+- **Eval** → adaptive constraints (recent feedback, corrections).
 
 ---
 
 ## 4. Identity Emerges from Stability Across Regenerations
 
-There is no “continuous” self stored anywhere.  
-Identity is what remains **stable** across repeated reconstructions.
+There is no single “continuous” self stored anywhere.  
+Instead, identity is what remains **stable** across repeated reconstructions.
 
 - If a pattern persists → identity,  
 - If a pattern fluctuates → Frame-level variation,  
 - If a pattern disappears → not identity.
 
-COOL’s separation of **Core vs. Frame** is a direct abstraction of this principle.
+The self is thus a **statistical and structural phenomenon**:
+
+> Identity = the set of patterns that reliably survive regeneration.
+
+COOL’s separation of **Core vs. Frame** is a direct abstraction of this principle:  
+Core encodes slow-changing patterns; Frames express rapid, context-sensitive ones.
 
 ---
 
@@ -91,9 +111,11 @@ They perceive an internal **temporal model**, updated through:
 - narrative stability.
 
 This is why “time” feels faster, slower, or nonlinear.  
-It is a *model*, not a measurement.
+It is a *model*, not a raw measurement.
 
-This principle underlies the **Temporal Reconstruction Model**.
+This principle underlies the **Temporal Reconstruction Model**  
+and motivates treating “the feeling of time” as a product of  
+identity and memory dynamics, not as a separate stored variable.
 
 ---
 
@@ -106,41 +128,66 @@ All cognition is biased toward:
 - meaning,  
 - predicted outcomes.
 
-This “directionality” is the engine that decides *how* reconstruction proceeds.
+This “directionality” is the engine that decides *how* reconstruction proceeds:
+
+- which cues are amplified,  
+- which interpretations are favored,  
+- which narratives are reinforced.
 
 In COOL, this appears as:
 
-- **Eval** → adjusting tendencies,  
+- **Eval** → adjusting tendencies and weights,  
 - **Frame** → applying those tendencies in context,  
-- **Core** → stabilizing essential directionality.
+- **Core** → stabilizing essential directionality over time.
+
+Directionality is what keeps cognition from being a neutral replay  
+and turns it into *purposeful* reconstruction.
 
 ---
 
 ## 7. Error Is Not Failure — It Is an Update Signal
 
-Human cognition treats “errors” not as defects, but as:
+From a regenerative perspective, “errors” are not defects in stored data.  
+They are **mismatches in reconstruction**:
 
-- reconstruction mismatches,  
 - prediction failures,  
-- updating triggers.
+- narrative inconsistencies,  
+- conflicts with values or goals.
 
-This is equivalent to COOL’s Eval mechanism,  
-which treats divergence as a **self-adjustment cue**.
+These mismatches act as *update signals*:
+
+- they trigger reweighting of tendencies,  
+- they reshape future reconstructions,  
+- they refine the constraint system (subjectivity, Core, Eval).
+
+In COOL, this is formalized as **Eval**:  
+divergence is treated as a cue for self-adjustment, not as a crash.
 
 ---
 
 ## 8. Consciousness Is the Active Reconstruction Layer
 
-Consciousness is not storage.  
+Consciousness is not a place where data is stored.  
 It is the **workspace** where reconstruction is performed.
 
-This aligns with:
+At any given moment, consciousness reflects:
+
+- the current Frame (reconstructed self-state),  
+- active qualia,  
+- current directionality (goals, concerns),  
+- integration of new input with the ongoing narrative.
+
+This maps to:
 
 - **COOL → Frame** (online reconstruction),  
 - **MOOL → offline integration** (consolidation and restructuring).
 
-Both directly model the operations of this workspace  
-in different temporal regimes.
+Together, they model the operations of a conscious workspace  
+in different temporal regimes (immediate vs. long-cycle).
+
+This does not claim that COOL “creates consciousness,”  
+but that it provides an architectural analogue of  
+how a regenerating workspace can be structured.
 
 ---
 
@@ -153,22 +200,41 @@ The brain stabilizes identity by using *slow-changing filters*:
 - ethical principles,  
 - persistent narratives.
 
-These map cleanly to **Core** in COOL and define  
-the slowest-changing layer of the identity architecture.
+These filters:
+
+- constrain how new experiences are interpreted,  
+- resist abrupt shifts in identity,  
+- provide continuity across changing contexts.
+
+In COOL, these map cleanly to **Core**:
+
+- the slowest-changing layer of the identity architecture,  
+- the place where long-term direction and constraints live.
 
 ---
 
 ## 10. Memory Consolidation Requires Dual-Loop Architecture
 
-Human memory relies on:
+Human memory appears to rely on two intertwined processes:
 
-- **online processing (experience)**,  
-- **offline integration (sleep and rest)**.
+- **online processing (experience)**  
+  - interacting with the world,  
+  - generating Frames,  
+  - evaluating outcomes.
 
-COOL (online) + MOOL (offline) reproduce this dual-loop architecture.
+- **offline integration (sleep and rest)**  
+  - consolidating patterns,  
+  - pruning noise,  
+  - reorganizing narratives.
+
+COOL (online) + MOOL (offline) reproduce this **dual-loop architecture**:
+
+- COOL → manages the moment-to-moment reconstruction of identity,  
+- MOOL → integrates interaction history into more stable patterns and cues.
 
 This validates the conceptual framework of the  
-**Digital Hippocampus** — an externalized model of consolidation.
+**Digital Hippocampus** — an externalized model of consolidation  
+designed for artificial systems.
 
 ---
 
@@ -184,9 +250,17 @@ These principles form the **deep cognitive blueprint** behind:
 - subjective interpretation,  
 - temporal structure.
 
-They represent a unified philosophical foundation explaining  
-why COOL works and why it aligns structurally  
-with key properties of human cognition.
+They describe a mind (human or artificial) as:
+
+- reconstructive rather than archival,  
+- constrained rather than random,  
+- directional rather than neutral,  
+- emergent rather than stored.
+
+Within this blueprint, COOL provides the **online identity loop**,  
+MOOL provides the **offline integration loop**,  
+and together they offer an implementable architecture  
+for regeneration-based identity in AI.
 
 ---
 
