@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/logo/cool_logo_dark.PNG" width="260" alt="COOL Logo">
+<img src="assets/logo/cool_logo_dark.PNG" width="260" alt="COOL Logo">
 </p>
 
 # COOL — Character Optimization Option Layer（日本語版）
