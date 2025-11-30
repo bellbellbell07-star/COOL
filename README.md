@@ -319,7 +319,7 @@ the plan is to provide:
 - ⬜ Predefined character packs for common use cases  
 
 This repository is a **work in progress**.  
-Names, structures, and examples may evolve as more is learned。
+Names, structures, and examples may evolve as more is learned.
 
 ---
 
@@ -370,4 +370,5 @@ You are allowed to:
 
 If you experiment with your own implementation of **COOL** or **MOOL**,  
 I would be very happy to hear about it.
+
 
