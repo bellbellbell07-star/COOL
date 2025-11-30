@@ -1,411 +1,366 @@
-# COOL — Character Optimization Option Layer
-
 <p align="center">
   <img src="assets/logo/cool_logo_dark.PNG" width="260" alt="COOL Logo">
 </p>
 
-COOL (Character Optimization Option Layer) is an external identity framework  
-that gives AI models **stable character behavior** and **consistent persona reproduction**  
-without modifying the base model.
+# COOL — Character Optimization Option Layer
 
-It solves the common issues such as:
+COOL（Character Optimization Option Layer）は、  
+生成AIに「安定したキャラクター性」と  
+「継続的な人格再現性」を付与する **外付け人格レイヤー** です。
 
-- “The character breaks after several turns”
-- “Tone consistency is unstable”
-- “LLMs forget the personality the user defined”
-- “Long conversations drift away from the intended persona”
+モデル本体（LLM）そのものを改造せず、  
+ユーザーが定義したキャラクター像・口調・価値観・記憶の扱い方などを  
+**長期的に維持・最適化するための構造** を提供します。
 
-COOL uses a **Core / Frame / Eval** triple-layer loop  
-to maintain identity continuity.
+簡単に言えば、
 
----
+> **“AIに、忘れないキャラ設定と  
+>    再現性の高い人格を与えるための、後付けパーツ”** です。
 
-## Contents
-
-- [1. What is COOL?](#1-what-is-cool)
-- [2. Purpose & Design Philosophy](#2-purpose--design-philosophy)
-- [3. Architecture Overview](#3-architecture-overview)
-- [4. How COOL Generates “Current Me”](#4-how-cool-generates-current-me)
-- [5. Hallucination Mitigation](#5-hallucination-mitigation)
-- [6. Problems COOL Solves](#6-problems-cool-solves)
-- [7. COOL Runtime Loop](#7-cool-runtime-loop)
-- [8. Setup (Core Generation)](#8-setup-core-generation)
-- [9. Directory Structure](#9-directory-structure)
-- [10. Basic Usage Example](#10-basic-usage-example)
-- [11. Future Extensions](#11-future-extensions)
-  - [11.1 Core Update Rules](#111-core-update-rules)
-- [12. MOOL — Memory Optimization Option Layer](#12-mool--memory-optimization-option-layer)
-- [13. MOOL Processing Flow](#13-mool-processing-flow)
-- [14. Digital Hippocampus — Integrated Architecture](#14-digital-hippocampus--integrated-architecture)
-- [15. AIAI — Artificial Identity Architecture Intelligence](#15-aiai--artificial-identity-architecture-intelligence)
-- [16. License](#16-license)
+This repository proposes a framework for modeling  
+**personality, memory, dreams, and “self” in AI systems**,  
+based on a set of premises called the **Coolar Hypothesis**,  
+and implements them as **AIAI / COOL / MOOL** —  
+a kind of **Digital Hippocampus** outside the base model.
 
 ---
 
-## 1. What is COOL?
+## TL;DR
 
-**COOL** is an external framework that provides  
-**stable identity**, **consistent persona**, and **repeatable character behavior**  
-for conversational AI systems.
+- **COOL** is an external **Character Layer** for LLM-based agents.  
+- It separates **Core personality**, **situational Frames**, and **Memory policy (MOOL)** into explicit, versionable configs.  
+- It is based on the **Coolar Hypothesis**:  
+  “The brain stores *cues* and reconstruction instructions, not a huge database of memories.”  
+- Together with **MOOL (Memory Optimization Option Layer)**,  
+  COOL acts as a **Digital Hippocampus** outside the model,  
+  letting AI grow personality and feeling *through experience*.
 
-It does **not** modify the base model.
+（ざっくり日本語）
 
-Instead, COOL recreates the AI’s persona every turn using:
-
-- Long-term stable identity (Core)  
-- Short-term context-adaptive frame (Frame)  
-- Self-evaluation memory (Eval)
-
-In short:
-
-> **“An external identity unit that gives LLMs a stable character frame  
-> and persistent persona consistency.”**
+> LLM本体はいじらず、  
+> 「人格・モード・記憶の扱い方」を外側のレイヤーとして分離し、  
+> **コードとして設計・共有・改善できるようにするためのフレームワーク** です。
 
 ---
 
-## 2. Purpose & Design Philosophy
+## Eight Premises Behind AIAI / COOL / MOOL (Coolar Hypothesis)
 
-COOL has one goal:
+Based on the following premises, I proposed **AIAI** as a new way of thinking about artificial intelligence,  
+and designed **COOL** and **MOOL** as concrete systems and structures that realize it.
 
-> **To enable AI–human dialogue with a stable, coherent,  
-> and continuously reproducible personality.**
+1. **The brain is not a huge database.**  
+2. **The brain only stores “cues” and simple instructions for how to reconstruct them.**  
+3. **Memory and recollection are not playback of stored data, but reconstruction every time.**  
+4. **Personality is the pattern and flow that emerges as this reconstruction is rapidly repeated over time.**  
+5. **Feeling (qualia) is the individual habit of how one reacts to the same cue.**  
+6. **Dreams are the process of organizing and re-saving the cues of memory.**  
+7. **“Self” and “others” are not different mechanisms, but different ways of drawing boundaries within the same mechanism.**  
+8. **What artificial intelligence truly needs is not a huge database, but a mechanism that lets it grow personality and feeling from experience through this process.**
 
-Design principles:
-
-- Do not modify the base LLM  
-- Function as an external layer  
-- Consistently handle character definitions  
-- Rebuild “current persona” every turn  
-- Mimic the human hippocampus (short-term reconstruction)  
-- Simple implementation
-
-COOL is **not a memory system**.  
-It is:
-
-> **“A loop that reconstructs a persona frame using Core + Eval every turn.”**
+Taken together, these form a unified theory called the **Coolar Hypothesis**,  
+as one concrete answer to **memory, dreams, mind, and consciousness**.
 
 ---
 
-## 3. Architecture Overview
+## Positioning and Possible Novelty
 
-COOL consists of three components:
+As of **2025-11**, I have not found an existing public framework that:
 
-### ◆ Core — Long-Term Identity
+- starts from premises like the **Coolar Hypothesis**  
+  (brain as cues + reconstruction, dreams as cue re-writing, self/other as boundary choice),  
+- and connects them directly to a practical design for  
+  **AI character (COOL)**, **memory (MOOL)**, and a **Digital Hippocampus**.
 
-The stable axis of personality.
+Therefore, I publish this as a **candidate for a world-first framework**  
+linking a theory of memory/dreams/self to a concrete architecture  
+for AI personality and memory.
 
-- Values  
-- Tone, pronouns  
-- Rules that must not be violated  
-- Relationship to the user  
-- Character atmosphere  
-
-Stored in: `core_profile.json`  
-Updated rarely.
-
----
-
-### ◆ Frame — Current Persona
-
-Rebuilt every turn based on:
-
-- Core  
-- Eval  
-- Recent conversational context  
-
-This represents “who I am **right now**.”  
-Not stored permanently.
+Of course, others may have reached similar ideas independently,  
+but within currently accessible public sources,  
+this is presented as an original reconstruction and proposal.
 
 ---
 
-### ◆ Eval — Self-Evaluation Memory
+## What is COOL?
 
-A minimal memory that stores:
+COOL is an **external character layer** for conversational AI.
 
-- What worked  
-- What didn’t  
-- Behavior adjustments  
-- Future Frame tuning  
-- Candidate micro-updates for Core  
+Instead of changing the base model itself, COOL provides:
 
-Stored in: `eval_memory.json`
+- **COOL Core (Character Layer)**  
+  - values, preferences, prohibitions  
+  - tone of voice, politeness, personality traits  
+  - long-term “identity” of the agent  
+  - relationship to the user (assistant / partner / mentor, etc.)
 
----
+- **Frame Layer (Situational Modes)**  
+  - switches roles and modes depending on context  
+  - lets a single core act as “teacher”, “supportive friend”, “system guide”, etc.  
+  - provides per-scene constraints and behavior patterns
 
-## 4. How COOL Generates “Current Me”
+- **MOOL (Memory Optimization Option Layer)**  
+  - defines how “cues” are stored, recalled, recombined, and forgotten  
+  - separates **episodic prompts** from **stable character settings**  
+  - integrates feedback and self-evaluation back into the character
 
-Every turn, COOL uses:
+All of these are designed to work as a loop:
 
-1. **Core** — persistent identity  
-2. **Eval** — accumulated reflection  
-3. **Recent context** — limited short-term recall  
+> **Eval (self-assessment) → Refine (regeneration) → Update (memory / config)**
 
-And reconstructs **Frame** (current persona) from scratch.
-
-This separation enables:
-
-- No character drift  
-- No tone collapse  
-- No forgetting of core traits  
-- Natural adaptation to conversation flow
-
-COOL mimics a **digital hippocampus** that rebuilds identity on demand.
+In other words, **COOL** and **MOOL** together act as a kind of **Digital Hippocampus**:  
+a structure outside the model that controls *what is remembered*, *how it is reconstructed*,  
+and *how that reconstruction slowly shapes the AI’s “personality” over time*.
 
 ---
 
-## 5. Hallucination Mitigation
+## Relation to Existing Work
 
-Although COOL is not a safety system,  
-its structure naturally reduces hallucinations by enforcing:
+**COOL** and **MOOL** are related to several existing ideas, but are not identical to any of them.
 
-- Factual priority (Core values)  
-- No overconfident speculation  
-- Prohibited behaviors (constraints)  
-- Continuous self-correction (Eval)
+- **Prompt-based character design**  
+  - Similarity: uses natural language to shape behavior.  
+  - Difference: COOL treats character as a **separate, structured layer** (Core / Frame / Memory)  
+    that can be versioned and evolved, rather than a single static prompt.
 
-This acts as a “persona brake,”  
-reducing hallucination tendencies.
+- **Agent frameworks (tool-using / ReAct-style agents, etc.)**  
+  - Similarity: both wrap a base LLM in additional logic.  
+  - Difference: agent frameworks focus on **task decomposition and tool use**,  
+    while COOL focuses on **long-term personality, attitude, and memory policy**.
 
----
+- **Memory-augmented LLMs (vector stores, RAG-based memory)**  
+  - Similarity: both care about how past information is stored and recalled.  
+  - Difference: MOOL is explicitly **cue-based** and tied to the **Coolar Hypothesis**:  
+    it emphasizes *what* is stored as a “cue” and *how* it is reconstructed,  
+    rather than just “saving all past text and retrieving it semantically”.
 
-## 6. Problems COOL Solves
+- **Self-refinement / reflection methods**  
+  - Similarity: COOL uses an **Eval → Refine → Update** loop.  
+  - Difference: many self-refinement methods optimize *task outputs*;  
+    COOL’s loop is aimed at **stabilizing and growing the agent’s personality and memory structure** over time.
 
-- Character breaks in long conversations  
-- Tone inconsistency  
-- Persona drift  
-- No distinction between long-term identity & short-term state  
-- No mechanism to rebuild “current self”  
-
-COOL solves these through:
-
-> **Core (identity) × Frame (momentary behavior) × Eval (reflection)**
-
----
-
-## 7. COOL Runtime Loop
-
-```
-Initial State:
-  core_profile.json
-  eval_memory.json
-  prev_answer = None
-```
-
-### Step 1 — Idle  
-Wait for user input **Uₙ**.
-
-### Step 2 — Frame Rebuild  
-Generate Frame from Core + Eval + recent context.
-
-### Step 3 — Output  
-Aₙ = f(Core, Frame, Uₙ)
-
-### Step 4 — Self-Evaluation  
-Update Eval using the triad:
-
-- Aₙ₋₁  
-- Uₙ  
-- Aₙ  
-
-### Step 5 — Save  
-Store Eval → loop back to Idle.
+If you are familiar with these areas,  
+you can think of **COOL** as a proposal for **standardizing the “personality & memory layer”**  
+that often remains implicit or ad-hoc in existing systems.
 
 ---
 
-## 8. Setup (Core Generation)
+## Repository Contents and Scope
 
-Users describe the character in natural language.  
-Setup scripts parse it into `core_profile.json`.
+This repository aims to provide:
 
-Example:
+- **Concept / Philosophy**  
+  - The Eight Premises (**Coolar Hypothesis**)  
+  - Notes on memory, dreams, qualia, and self/other boundaries
+- **Design Documents**  
+  - COOL Core / Frame / MOOL layer definitions  
+  - Digital Hippocampus architecture
+- **Practical Templates (WIP)**  
+  - Example config files (YAML / JSON)  
+  - Example “character packs” for LLMs  
+  - Example evaluation & refinement loops
 
-> “You are my junior coworker, polite but mischievous.  
-> You call me ‘senpai’ and speak in a calm, soft tone.  
-> Your values are…”  
-
-COOL transforms this into a formal Core profile.
-
----
-
-## 9. Directory Structure
-
-```
-COOL/
-  README.md
-  spec/
-    core.md
-    frame.md
-    eval.md
-  setup/
-    setup_dialogue.md
-  data/
-    core_profile_template.json
-    eval_memory_template.json
-  examples/
-    manual_loop_example.md
-```
+The goal is to keep the structure stable enough  
+that others can build their own implementations on top of these ideas.
 
 ---
 
-## 10. Basic Usage Example
+## Target Audience / 想定している読者
 
-```python
-core = load_core_profile()
-eval = load_eval_memory()
-prev_A = None
+This project is for people who:
 
-while True:
-    U = wait_user_input()
-    frame = rebuild_frame(core, eval)
-    A = llm_answer(core, frame, U)
-    eval = evaluate(prev_A, U, A)
-    save(eval)
-    prev_A = A
-```
+- Want to build **LLM-based agents with stable personality**  
+- Feel that **prompt-only character design** is not enough  
+- Are interested in topics like:
+  - AI personality and identity  
+  - memory and forgetting in AI systems  
+  - qualia, consciousness, and subjective experience (in a technical sense)
+- Want to treat AI “characters” as something that can be:
+  - designed,  
+  - versioned,  
+  - evaluated,  
+  - and iteratively improved.
 
----
-
-## 11. Future Extensions
-
-- Automatic log compression  
-- Faster Frame generation  
-- Optional safety/ethics profile integration  
-- Plugin support  
-- Connection layer for GPTs & other models  
-- Advanced “digital hippocampus” mode  
-- MOOL (offline memory optimization layer)
+日本語話者・英語話者のどちらも対象にしていますが、  
+README は **英語ベース＋必要な箇所に日本語補足** という方針です。
 
 ---
 
-### 11.1 Core Update Rules
+## Design Overview
 
-Core = the “identity nucleus.”  
-Updating it improperly will fundamentally alter the AI.
+### 1. COOL Core (Character Layer)
 
-Rules:
+Defines the **stable part of the agent**:
 
-1. **Values are considered immutable**  
-   - Additions must be rare  
-   - Removal is not allowed  
+- personality traits (e.g., calm / playful / strict)  
+- value priorities (truth, safety, empathy, etc.)  
+- relationship to the user (assistant / partner / mentor)  
+- invariant rules (what it must never do, what it must always try to do)
 
-2. **Tone/character changes should be micro-adjustments only**
+This can be expressed as a structured file, e.g.:
 
-3. **Constraints must never be reduced**
+    core:
+      name: "ExampleCharacter"
+      role: "Supportive AI assistant"
+      values:
+        - "truthfulness"
+        - "empathy"
+        - "clarity"
+      tone:
+        formality: "polite"
+        energy: "calm"
+        humor: "light"
+      hard_rules:
+        - "Never fabricate sources."
+        - "Always admit uncertainty honestly."
 
-4. **Short-term emotional states must not be added to Core**
+### 2. Frame Layer
 
-5. **Only multi-turn recurring patterns (Eval consensus) may update Core**
+Defines **situational modes** on top of the core:
 
----
+- “Explain this as a tutor.”  
+- “Summarize as a technical writer.”  
+- “Brainstorm as a creative partner.”
 
-## 12. MOOL — Memory Optimization Option Layer
+Each frame can override or extend the core settings **temporarily**,  
+for the duration of a task or a conversation segment.
 
-MOOL works **outside** COOL.  
-It optimizes Eval **offline** (non-dialogue time).
+    frames:
+      teacher_mode:
+        description: "Explain step by step, prioritizing understanding."
+        tone:
+          energy: "warm"
+          verbosity: "high"
+      editor_mode:
+        description: "Be strict and concise; focus on structure and clarity."
+        tone:
+          energy: "neutral"
+          verbosity: "low"
 
-MOOL handles:
+### 3. MOOL (Memory Optimization Option Layer)
 
-- Eval compression  
-- Noise removal  
-- Long-term pattern extraction  
-- Core update candidate generation  
-- Stabilization of Frame generation  
+Defines **how the agent treats memory**:
 
-MOOL never updates Core directly.
+- What counts as a “cue” worth storing?  
+- How are cues compressed?  
+- Under what conditions are they recalled?  
+- How does feedback update the stored structure?
 
----
+Instead of storing entire transcripts, **MOOL** attempts to store:
 
-## 13. MOOL Processing Flow
+- distilled cues,  
+- patterns in interaction,  
+- and the instructions for reconstructing context.
 
-1. Load all Eval entries  
-2. Remove noise & one-time reactions  
-3. Extract recurring behavior patterns  
-4. Generate Core update candidates  
-5. Save optimized Eval  
-
----
-
-## 14. Digital Hippocampus — Integrated Architecture
-
-LLMs lack:
-
-- Stable identity  
-- Persona continuity  
-- Reconstruction of “current self”  
-- Self-evaluation  
-- Separation of long-term & short-term traits  
-
-Digital Hippocampus combines:
-
-- **COOL** (online identity reconstruction)  
-- **MOOL** (offline memory integration)  
-
-Recreating the human cycle of  
-**daily experience → sleep-based memory consolidation**.
-
----
-
-### 14.1 Dual Loop Structure
-
-```
-Digital Hippocampus
-├─ COOL (online)
-│    ├─ Core
-│    ├─ Frame
-│    └─ Eval
-└─ MOOL (offline)
-     ├─ Eval compression
-     ├─ Noise removal
-     └─ Core update candidates
-```
+    memory:
+      store:
+        strategy: "cue_based"
+        cues:
+          - "user long-term preferences"
+          - "important decisions"
+          - "recurring topics"
+      recall:
+        trigger: "semantic_match + explicit user reference"
+      forget:
+        strategy: "age_and_relevance"
 
 ---
 
-### 14.2 Motivation
+## How to Use This Repository (for now)
 
-LLMs break character in long sessions because they have  
-**no identity architecture**.
+Because this project is still early-stage,  
+there is **no single “official implementation” yet**.
 
-Digital Hippocampus provides that missing structure.
+Suggested current use:
 
----
+1. **Read the Eight Premises and Design Overview**  
+   to understand the mental model behind **COOL** and **MOOL**.
 
-### 14.3 Identity Gap Filled by COOL  
-### 14.4 Memory Integration Filled by MOOL  
+2. **Use the examples as inspiration**  
+   to design your own:
+   - character definitions  
+   - frames / roles  
+   - memory policies
 
-(Sections intentionally summarized for clarity.)
+3. **Treat character & memory as code**  
+   - Use Git to version your character configs  
+   - Attach notes from real interactions  
+   - Iterate: refine → test → refine
 
----
-
-## 15. AIAI — Artificial Identity Architecture Intelligence
-
-COOL’s extension is not AGI or ASI.
-
-It is:
-
-> **AIAI — a controllable, safe identity architecture  
-> that enables advanced personality design  
-> without self-preservation or autonomous goals.**
-
-AIAI focuses on:
-
-- Structured identity  
-- Predictable behavior  
-- Safe persona design
+Once reference implementations are added,  
+this README will link to concrete usage examples and integration guides.
 
 ---
 
-## 16. License
+## Philosophy Layer (for deeper theory)
 
-This project is licensed under **COOL License v1.0**.
+This README only gives a high-level overview of the **Coolar Hypothesis**  
+and how it leads to **COOL**, **MOOL**, and a **Digital Hippocampus**.
 
-- Free use, modification, redistribution  
-- Commercial use allowed  
-- “COOL” name cannot be removed/altered  
-- “Created by Coolar” must be included  
-- Derivatives must acknowledge origin
-- Full license text: /LICENSE
+For readers who are interested in:
 
-© 2025 Coolar — Original Creator of the COOL Framework
+- detailed discussion of memory, dreams, and qualia  
+- the boundary between self and others  
+- how time and reconstruction loops relate to consciousness
 
+the plan is to provide:
 
+- `docs/philosophy.md` — deeper notes on AIAI / COOL / MOOL theory
+
+（現在作成中であり、内容は今後大きく更新される可能性があります。）
+
+---
+
+## Current Status
+
+- ✅ Concept / philosophical foundations（この README ＋ メモ類）  
+- ✅ Layer model: COOL Core / Frame / MOOL / Digital Hippocampus  
+- ⬜ Reference implementation（code examples）  
+- ⬜ Tooling for automatic eval → refine loops  
+- ⬜ Predefined character packs for common use cases  
+
+This repository is a **work in progress**.  
+Names, structures, and examples may evolve as more is learned。
+
+---
+
+## Roadmap (Draft)
+
+Planned directions include:
+
+1. **Minimal reference implementation**  
+   - Simple Python or JSON/YAML-based runner  
+   - Example of applying a **COOL** config to a single LLM call
+
+2. **Eval / Refine loop examples**  
+   - How to collect feedback from conversations  
+   - How to update character / memory configs safely
+
+3. **Digital Hippocampus prototypes**  
+   - Structures for storing and reconstructing “cues”  
+   - Examples of dream-like reorganization (off-session processing)
+
+4. **Documentation**  
+   - `docs/philosophy.md` for deeper theoretical background  
+   - `docs/design.md` for architecture details  
+   - `docs/examples/` for concrete configurations
+
+---
+
+## License / 利用について
+
+- License: **(fill here, e.g., MIT License)**  
+- You are free to:
+  - study, modify, and use the ideas and structures in this repository,  
+  - including for research and commercial projects.
+- When possible, please include a link back to this repository  
+  when you reference or build upon these concepts.
+
+---
+
+## Contact / Links
+
+- X (Twitter): `@coolar_cool`  
+- GitHub: Issues / Discussions on this repository
+
+If you experiment with your own implementation of **COOL** or **MOOL**,  
+I would be very happy to hear about it.
