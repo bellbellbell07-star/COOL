@@ -274,4 +274,205 @@ it is the “identity skeleton” of the agent.
 
 Defines **situational modes** on top of the core.
 
-Examples
+Examples:
+
+- “Explain this as a tutor.”  
+- “Summarise as a technical writer.”  
+- “Brainstorm as a creative partner.”
+
+Each frame can override or extend the core settings **temporarily**,  
+for the duration of a task or a conversation segment.
+
+    frames:
+      teacher_mode:
+        description: "Explain step by step, prioritising understanding."
+        tone:
+          energy: "warm"
+          verbosity: "high"
+      editor_mode:
+        description: "Be strict and concise; focus on structure and clarity."
+        tone:
+          energy: "neutral"
+          verbosity: "low"
+      creative_partner_mode:
+        description: "Brainstorm freely; prioritise ideas over structure."
+        tone:
+          energy: "playful"
+          verbosity: "medium"
+
+The frame is *not* “today’s mood”;  
+it is the **“right now” reconstruction** for the current context.
+
+---
+
+### 3. MOOL (Memory Optimization Option Layer)
+
+Defines **how the agent treats memory**:
+
+- What counts as a “cue” worth storing?  
+- How are cues compressed?  
+- Under what conditions are they recalled?  
+- How does feedback update the stored structure?
+
+Instead of storing entire transcripts, **MOOL** aims to store:
+
+- distilled cues,  
+- patterns in interaction,  
+- and the instructions for reconstructing context.
+
+    memory:
+      store:
+        strategy: "cue_based"
+        cues:
+          - "user long-term preferences"
+          - "important decisions"
+          - "recurring topics"
+      recall:
+        trigger: "semantic_match + explicit user reference"
+      forget:
+        strategy: "age_and_relevance"
+
+MOOL can be implemented purely as configuration and external storage;  
+it does not assume any particular database or vector store.
+
+---
+
+## Operational Loop (COOL + MOOL)
+
+A very simplified loop looks like this:
+
+    core_config    = load_core()
+    memory_state   = load_memory()
+    recent_context = []
+
+    while True:
+        user_input = wait_for_user()
+
+        # 1. Rebuild frame for "who I am right now"
+        frame = build_frame(core_config, memory_state, recent_context)
+
+        # 2. Ask the LLM to answer as (core + frame)
+        reply = llm_answer(core_config, frame, user_input)
+
+        # 3. Evaluate and update memory (cue-based)
+        feedback       = evaluate_interaction(user_input, reply)
+        memory_state   = update_memory(memory_state, feedback)
+        recent_context = update_recent_context(recent_context, user_input, reply)
+
+        show_to_user(reply)
+
+Different implementations may have richer evaluation,  
+offline MOOL processing, or multi-agent setups,  
+but this loop captures the core idea:
+
+> **Every turn, re-generate “the current self” from core + cues,  
+> rather than assuming a fixed prompt or infinite transcript.**
+
+---
+
+## How to Use This Repository (for now)
+
+Because this project is still early-stage,  
+there is **no single “official implementation” yet**.
+
+Suggested current use:
+
+1. **Read the Eight Premises and Design Overview**  
+   to understand the mental model behind **COOL** and **MOOL**.
+
+2. **Use the examples as inspiration**  
+   to design your own:
+   - character definitions  
+   - frames / roles  
+   - memory policies
+
+3. **Treat character & memory as code**  
+   - Use Git to version your character configs  
+   - Attach notes from real interactions  
+   - Iterate: refine → test → refine
+
+Once reference implementations are added,  
+this README will link to concrete usage examples and integration guides.
+
+---
+
+## Philosophy Layer (for deeper theory)
+
+This README only gives a high-level overview of the **Coolar Hypothesis**  
+and how it leads to **COOL**, **MOOL**, and a **Digital Hippocampus**.
+
+For readers interested in:
+
+- more detailed discussion of memory, dreams, and qualia,  
+- the boundary between self and others,  
+- and how time / reconstruction loops relate to consciousness,
+
+the plan is to provide:
+
+- `docs/philosophy.md` — deeper notes on AIAI / COOL / MOOL theory.
+
+This document is a work in progress and may change significantly.
+
+---
+
+## Current Status
+
+- ✅ Concept / philosophical foundations (this README + notes)  
+- ✅ Layer model: COOL Core / Frame / MOOL / Digital Hippocampus  
+- ⬜ Reference implementation (code examples)  
+- ⬜ Tooling for automatic eval → refine loops  
+- ⬜ Predefined character packs for common use cases  
+
+This repository is a **work in progress**.  
+Names, structures, and examples may evolve as more is learned.
+
+---
+
+## Roadmap (Draft)
+
+Planned directions include:
+
+1. **Minimal reference implementation**  
+   - Simple Python or JSON/YAML-based runner  
+   - Example of applying a **COOL** config to a single LLM call
+
+2. **Eval / Refine loop examples**  
+   - How to collect feedback from conversations  
+   - How to update character / memory configs safely
+
+3. **Digital Hippocampus prototypes**  
+   - Structures for storing and reconstructing “cues”  
+   - Examples of dream-like reorganisation (off-session processing)
+
+4. **Documentation**  
+   - `docs/philosophy.md` for deeper theoretical background  
+   - `docs/design.md` for architecture details  
+   - `docs/examples/` for concrete configurations
+
+---
+
+## License / Usage
+
+- License: **COOL License ver.1.0**  
+- See the `LICENSE` file in this repository for full details.
+
+You are allowed to:
+
+- use, modify, and redistribute the COOL Framework and its derivatives,  
+- including for commercial use, as long as you:
+  - keep the **COOL** name,  
+  - clearly state that your work is based on or derived from **COOL**, and  
+  - keep the original creator attribution:
+
+> Created by Coolar — Original Creator of the COOL Framework
+
+---
+
+## Contact / Links
+
+- X (Twitter): `@coolar_cool`  
+- GitHub: Issues / Discussions on this repository
+
+If you experiment with your own implementation of **COOL** or **MOOL**,  
+or design your own Digital Hippocampus architecture,  
+I would be very happy to hear about it.
